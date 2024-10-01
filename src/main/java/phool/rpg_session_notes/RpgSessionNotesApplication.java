@@ -10,8 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
+import phool.rpg_session_notes.domain.CampaignUser;
 import phool.rpg_session_notes.repository.AppUserRepository;
 import phool.rpg_session_notes.repository.CampaignRepository;
+import phool.rpg_session_notes.repository.CampaignUserRepository;
 
 @SpringBootApplication
 public class RpgSessionNotesApplication {
@@ -23,7 +25,7 @@ public class RpgSessionNotesApplication {
     }
 
     @Bean
-    public CommandLineRunner demoData(CampaignRepository campaignRepository, AppUserRepository appUserRepository) {
+    public CommandLineRunner demoData(CampaignRepository campaignRepository, AppUserRepository appUserRepository, CampaignUserRepository campaignUserRepository) {
         return (args) -> {
 
             log.info("Creating a few Campaign test entries");
@@ -37,6 +39,23 @@ public class RpgSessionNotesApplication {
             AppUser user1 = new AppUser("user", userPass, "USER");
             appUserRepository.save(admin1);
             appUserRepository.save(user1);
+
+            log.info("Create more users: GM1/GM1, GM2/GM2, player1/player1");
+            String gm1Pass = BCrypt.hashpw("GM1", BCrypt.gensalt());
+            String gm2Pass = BCrypt.hashpw("GM2", BCrypt.gensalt());
+            String player1Pass = BCrypt.hashpw("player1", BCrypt.gensalt());
+            AppUser gm1 = new AppUser("GM1", gm1Pass, "USER");
+            AppUser gm2 = new AppUser("GM2", gm2Pass, "USER");
+            AppUser player1 = new AppUser("player1", player1Pass, "USER");
+            appUserRepository.save(gm1);
+            appUserRepository.save(gm2);
+            appUserRepository.save(player1);
+
+            log.info("Set some CampaignUser relations:");
+            campaignUserRepository.save(new CampaignUser(appUserRepository.findById(3L).get(), campaignRepository.findById(1L).get(), "GM", "SnarkyGM"));
+            campaignUserRepository.save(new CampaignUser(appUserRepository.findById(4L).get(), campaignRepository.findById(2L).get(), "GM", "TuckerGM"));
+            campaignUserRepository.save(new CampaignUser(appUserRepository.findById(5L).get(), campaignRepository.findById(1L).get(), "PLAYER", "Aragorn"));
+            campaignUserRepository.save(new CampaignUser(appUserRepository.findById(5L).get(), campaignRepository.findById(2L).get(), "PLAYER", "Poor Sod"));
         };
     }
 
