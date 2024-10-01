@@ -1,9 +1,14 @@
 package phool.rpg_session_notes.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -18,6 +23,9 @@ public class Campaign {
     @NotBlank(message = "Campaign name cannot be empty")
     private String name;
     private String description;
+
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CampaignUser> campaignUsers = new ArrayList<>();
 
     public Campaign() {
     }
@@ -60,6 +68,14 @@ public class Campaign {
         sb.append(", description=").append(description);
         sb.append('}');
         return sb.toString();
+    }
+
+    public List<CampaignUser> getCampaignUsers() {
+        return campaignUsers;
+    }
+
+    public void setCampaignUsers(List<CampaignUser> campaignUsers) {
+        this.campaignUsers = campaignUsers;
     }
 
 }

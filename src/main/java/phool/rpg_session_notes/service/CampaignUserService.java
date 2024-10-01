@@ -1,5 +1,7 @@
 package phool.rpg_session_notes.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ public class CampaignUserService {
     public CampaignUser findByUserAndCampaign(AppUser appUser, Campaign campaign) {
         return campaignUserRepository.findByAppUserAndCampaign(appUser, campaign)
                 .orElseThrow(() -> new RuntimeException("User not found in this campaign"));
+    }
+
+    public List<CampaignUser> findByUser(AppUser appUser) {
+        return campaignUserRepository.findAllByAppUser(appUser);
     }
 
     public CampaignUser addUserToCampaign(AppUser appUser, Campaign campaign, String role) {

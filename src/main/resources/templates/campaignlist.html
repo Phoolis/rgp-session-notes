@@ -26,14 +26,50 @@
           <span sec:authentication="name"></span>
         </h3>
       </div>
-      <table class="table table-striped">
+      <!--- Admin view --->
+      <table sec:authorize="hasAuthority('ADMIN')" class="table table-striped">
         <tr>
           <th>Name</th>
           <th>Description</th>
         </tr>
-        <tr th:each="campaign : ${campaigns}">
+        <tr th:each="campaign : ${allCampaigns}">
           <td th:text="${campaign.name}"></td>
           <td th:text="${campaign.description}"></td>
+          <td>
+            <a th:href="@{/campaign/{id}/edit(id=${campaign.id})}">Edit</a>
+          </td>
+          <td>
+            <a
+              th:href="@{/campaign/{id}/delete(id=${campaign.id})}"
+              class="btn btn-danger"
+              >Delete</a
+            >
+          </td>
+        </tr>
+      </table>
+      <!--- User view --->
+      <table th:if="${campaignUsers}" class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Your role</th>
+        </tr>
+        <tr th:each="campaignUser : ${campaignUsers}">
+          <td th:text="${campaignUser.campaign.name}"></td>
+          <td th:text="${campaignUser.campaign.description}"></td>
+          <td th:text="${campaignUser.campaignRole}"></td>
+          <td th:if="${campaignUser.campaignRole == 'GM'}">
+            <a th:href="@{/campaign/{id}/edit(id=${campaignUser.campaign.id})}"
+              >Edit</a
+            >
+          </td>
+          <td th:if="${campaignUser.campaignRole == 'GM'}">
+            <a
+              th:href="@{/campaign/{id}/delete(id=${campaignUser.campaign.id})}"
+              class="btn btn-danger"
+              >Delete</a
+            >
+          </td>
         </tr>
       </table>
     </div>
