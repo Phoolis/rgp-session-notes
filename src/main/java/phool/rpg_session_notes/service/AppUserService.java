@@ -15,7 +15,8 @@ public class AppUserService {
     private AppUserRepository appUserRepository;
 
     public AppUser findByUsername(String username) {
-        return appUserRepository.findByUsername(username);
+        return appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the username:" + username));
     }
 
     public AppUser findById(Long id) {
@@ -25,6 +26,6 @@ public class AppUserService {
 
     public AppUser getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return appUserRepository.findByUsername(username);
+        return this.findByUsername(username);
     }
 }

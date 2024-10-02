@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser curruser = repository.findByUsername(username);
+        AppUser curruser = repository.findByUsername(username).get();
         UserDetails user = new User(username, curruser.getPassword(),
                 AuthorityUtils.createAuthorityList(curruser.getRole()));
         return user;
