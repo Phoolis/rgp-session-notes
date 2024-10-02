@@ -7,7 +7,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Campaign</title>
+    <title>Campaign Sessions Dashboard</title>
     <link rel="stylesheet" href="/css/custom.css" />
   </head>
   <body>
@@ -20,19 +20,17 @@
           <span sec:authentication="name"></span>
         </h3>
       </div>
-      <div>
-        <form
-          action="#"
-          th:object="${campaign}"
-          th:action="@{/saveEditedCampaign}"
-          method="POST"
-        >
-          <input type="hidden" id="id" th:field="*{id}" />
-          <p>Name: <input type="text" th:field="*{name}" /></p>
-          <p>Description <input type="text" th:field="*{description}" /></p>
-          <p><input type="submit" value="Save" /></p>
-        </form>
-      </div>
+      <!--- Show sessions in reverse order 
+      source: https://stackoverflow.com/questions/46443563/thymeleaf-how-to-loop-through-a-list-in-inverse-order /--->
+      <fieldset
+        th:each="i : ${#numbers.sequence(campaign.sessions.size() -1, 0, -1)}"
+        th:with="sesh=${campaign.sessions[i]}"
+      >
+        <legend th:text="${'Session ' + sesh.sessionNumber}"></legend>
+        <p th:each="note : ${sesh.notes}">
+          <span th:text="${note.text}"></span>
+        </p>
+      </fieldset>
     </div>
   </body>
 </html>

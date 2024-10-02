@@ -70,4 +70,11 @@ public class CampaignController {
         return "redirect:/campaignlist";
     }
 
+    @GetMapping("/campaign/{id}/dashboard")
+    public String getCampaignDashboard(@PathVariable("id") Long id, Model model) {
+        Campaign campaign = campaignService.findById(id);
+        model.addAttribute("campaign", campaign);
+        return "dashboard";
+    }
+
 }

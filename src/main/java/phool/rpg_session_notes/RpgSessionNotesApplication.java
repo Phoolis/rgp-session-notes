@@ -1,5 +1,7 @@
 package phool.rpg_session_notes;
 
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,9 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
 import phool.rpg_session_notes.domain.CampaignUser;
+import phool.rpg_session_notes.domain.Note;
+import phool.rpg_session_notes.domain.Session;
 import phool.rpg_session_notes.repository.AppUserRepository;
 import phool.rpg_session_notes.repository.CampaignRepository;
 import phool.rpg_session_notes.repository.CampaignUserRepository;
+import phool.rpg_session_notes.repository.NoteRepository;
+import phool.rpg_session_notes.repository.SessionRepository;
 
 @SpringBootApplication
 public class RpgSessionNotesApplication {
@@ -25,10 +31,15 @@ public class RpgSessionNotesApplication {
     }
 
     @Bean
-    public CommandLineRunner demoData(CampaignRepository campaignRepository, AppUserRepository appUserRepository, CampaignUserRepository campaignUserRepository) {
+    public CommandLineRunner demoData(
+            CampaignRepository campaignRepository,
+            AppUserRepository appUserRepository,
+            CampaignUserRepository campaignUserRepository,
+            SessionRepository sessionRepository,
+            NoteRepository noteRepository) {
         return (args) -> {
 
-            log.info("Creating a few Campaign test entries");
+            log.info("Create a few Campaign test entries");
             campaignRepository.save(new Campaign("SnarkyDM's Campaign", "The Fellowship"));
             campaignRepository.save(new Campaign("Tucker's Campaign", "Kobolds on Level One"));
 
@@ -56,6 +67,20 @@ public class RpgSessionNotesApplication {
             campaignUserRepository.save(new CampaignUser(appUserRepository.findById(4L).get(), campaignRepository.findById(2L).get(), "GM", "TuckerGM"));
             campaignUserRepository.save(new CampaignUser(appUserRepository.findById(5L).get(), campaignRepository.findById(1L).get(), "PLAYER", "Aragorn"));
             campaignUserRepository.save(new CampaignUser(appUserRepository.findById(5L).get(), campaignRepository.findById(2L).get(), "PLAYER", "Poor Sod"));
+
+            log.info("Create some sessions");
+            sessionRepository.save(new Session(campaignRepository.findById(1L).get(), LocalDate.now(), 1));
+            sessionRepository.save(new Session(campaignRepository.findById(1L).get(), LocalDate.now(), 2));
+            sessionRepository.save(new Session(campaignRepository.findById(2L).get(), LocalDate.now(), 1));
+            sessionRepository.save(new Session(campaignRepository.findById(2L).get(), LocalDate.now(), 2));
+            sessionRepository.save(new Session(campaignRepository.findById(2L).get(), LocalDate.now(), 3));
+
+            log.info("Create some notes");
+            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(1L).get(), "Very important note from GM!"));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(1L).get(), "Player1 adds a note."));
+            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(2L).get(), "Session 2 note from GM!"));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds a note to session 2."));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds second note to session 2."));
         };
     }
 

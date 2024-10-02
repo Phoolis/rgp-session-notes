@@ -49,9 +49,10 @@ public class Note {
     public Note() {
     }
 
-    public Note(AppUser appUser, Session session) {
+    public Note(AppUser appUser, Session session, String text) {
         this.appUser = appUser;
         this.session = session;
+        this.text = text;
     }
 
     public Long getId() {

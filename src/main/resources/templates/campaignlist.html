@@ -11,9 +11,10 @@
     <link
       type="text/css"
       rel="stylesheet"
-      href="css/bootstrap.min.css"
-      th:href="@{css/bootstrap.min.css}"
+      href="/css/bootstrap.min.css"
+      th:href="@{/css/bootstrap.min.css}"
     />
+    <link rel="stylesheet" href="/css/custom.css" />
   </head>
   <body>
     <div class="container">
@@ -26,8 +27,8 @@
           <span sec:authentication="name"></span>
         </h3>
       </div>
-      <!--- Admin view --->
       <table sec:authorize="hasAuthority('ADMIN')" class="table table-striped">
+        <!--- Admin view --->
         <tr>
           <th>Name</th>
           <th>Description</th>
@@ -47,14 +48,21 @@
           </td>
         </tr>
       </table>
-      <!--- User view --->
       <table th:if="${campaignUsers}" class="table table-striped">
+        <!--- User view --->
         <tr>
+          <th></th>
           <th>Name</th>
           <th>Description</th>
           <th>Your role</th>
         </tr>
         <tr th:each="campaignUser : ${campaignUsers}">
+          <td>
+            <a
+              th:href="@{/campaign/{id}/dashboard(id=${campaignUser.campaign.id})}"
+              >View</a
+            >
+          </td>
           <td th:text="${campaignUser.campaign.name}"></td>
           <td th:text="${campaignUser.campaign.description}"></td>
           <td th:text="${campaignUser.campaignRole}"></td>
