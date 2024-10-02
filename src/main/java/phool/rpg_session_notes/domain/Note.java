@@ -21,7 +21,7 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "note_id", nullable = false, updatable = false)
     private Long id;
 
     @ManyToOne
@@ -37,7 +37,7 @@ public class Note {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "parent_note_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "parent_note_id", referencedColumnName = "note_id", nullable = true)
     private Note parentNote;
 
     @OneToMany(mappedBy = "parentNote", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,4 +45,85 @@ public class Note {
 
     private String userRole;
     private String userScreenName;
+
+    public Note() {
+    }
+
+    public Note(AppUser appUser, Session session) {
+        this.appUser = appUser;
+        this.session = session;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Note getParentNote() {
+        return parentNote;
+    }
+
+    public void setParentNote(Note parentNote) {
+        this.parentNote = parentNote;
+    }
+
+    public List<Note> getChildNotes() {
+        return childNotes;
+    }
+
+    public void setChildNotes(List<Note> childNotes) {
+        this.childNotes = childNotes;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getUserScreenName() {
+        return userScreenName;
+    }
+
+    public void setUserScreenName(String userScreenName) {
+        this.userScreenName = userScreenName;
+    }
+
 }

@@ -65,6 +65,13 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
+    public Campaign updateCampaign(Campaign updatedCampaignData) {
+        Campaign existingCampaign = this.findById(updatedCampaignData.getId());
+        existingCampaign.setName(updatedCampaignData.getName());
+        existingCampaign.setDescription(updatedCampaignData.getDescription());
+        return this.save(existingCampaign);
+    }
+
     public void delete(Long id) {
         Campaign campaign = this.findById(id);
         AppUser currentUser = appUserService.getCurrentUser();

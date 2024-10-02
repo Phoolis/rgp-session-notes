@@ -19,7 +19,7 @@ public class Campaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "campaign_id", nullable = false, updatable = false)
     private Long id;
 
     @NotBlank(message = "Campaign name cannot be empty")
@@ -29,7 +29,7 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CampaignUser> campaignUsers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "session_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
 
     public Campaign() {

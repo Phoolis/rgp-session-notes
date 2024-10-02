@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,13 +54,13 @@ public class CampaignController {
             model.addAttribute("campaign", campaign);
             return "editcampaign";
         } else {
-            return "error/forbidden";
+            throw new AccessDeniedException("Unauthorised Access!");
         }
     }
 
     @PostMapping("/saveEditedCampaign")
     public String saveEditedCampaign(Campaign campaign, Model model) {
-        campaignService.save(campaign);
+        campaignService.updateCampaign(campaign);
         return "redirect:/campaignlist";
     }
 
