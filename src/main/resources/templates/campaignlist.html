@@ -33,7 +33,7 @@
           <th>Name</th>
           <th>Description</th>
         </tr>
-        <tr th:each="campaign : ${allCampaigns}">
+        <tr th:each="campaign : ${allcampaigns}">
           <td th:text="${campaign.name}"></td>
           <td th:text="${campaign.description}"></td>
           <td>
@@ -48,7 +48,7 @@
           </td>
         </tr>
       </table>
-      <table th:if="${campaignUsers}" class="table table-striped">
+      <table th:if="${campaignusers}" class="table table-striped">
         <!--- User view --->
         <tr>
           <th></th>
@@ -56,7 +56,7 @@
           <th>Description</th>
           <th>Your role</th>
         </tr>
-        <tr th:each="campaignUser : ${campaignUsers}">
+        <tr th:each="campaignUser : ${campaignusers}">
           <td>
             <a
               th:href="@{/campaign/{id}/dashboard(id=${campaignUser.campaign.id})}"

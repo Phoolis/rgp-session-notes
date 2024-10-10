@@ -36,10 +36,10 @@ public class CampaignController {
 
         if (currentUser.getRole().equals("ADMIN")) {
             List<Campaign> allCampaigns = campaignService.findAllCampaignsForUser(currentUser);
-            model.addAttribute("allCampaigns", allCampaigns);
+            model.addAttribute("allcampaigns", allCampaigns);
         } else {
             List<CampaignUser> campaignUsers = campaignUserService.findByUser(currentUser);
-            model.addAttribute("campaignUsers", campaignUsers);
+            model.addAttribute("campaignusers", campaignUsers);
         }
 
         return "campaignlist";

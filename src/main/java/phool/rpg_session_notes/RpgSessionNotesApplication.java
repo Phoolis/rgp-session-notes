@@ -51,12 +51,12 @@ public class RpgSessionNotesApplication {
             appUserRepository.save(admin1);
             appUserRepository.save(user1);
 
-            log.info("Create more users: GM1/GM1, GM2/GM2, player1/player1");
-            String gm1Pass = BCrypt.hashpw("GM1", BCrypt.gensalt());
-            String gm2Pass = BCrypt.hashpw("GM2", BCrypt.gensalt());
+            log.info("Create more users: gm1/gm1, gm2/gm2, player1/player1");
+            String gm1Pass = BCrypt.hashpw("gm1", BCrypt.gensalt());
+            String gm2Pass = BCrypt.hashpw("gm2", BCrypt.gensalt());
             String player1Pass = BCrypt.hashpw("player1", BCrypt.gensalt());
-            AppUser gm1 = new AppUser("GM1", gm1Pass, "USER");
-            AppUser gm2 = new AppUser("GM2", gm2Pass, "USER");
+            AppUser gm1 = new AppUser("gm1", gm1Pass, "USER");
+            AppUser gm2 = new AppUser("gm2", gm2Pass, "USER");
             AppUser player1 = new AppUser("player1", player1Pass, "USER");
             appUserRepository.save(gm1);
             appUserRepository.save(gm2);
