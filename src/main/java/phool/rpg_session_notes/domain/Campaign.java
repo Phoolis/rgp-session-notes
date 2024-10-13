@@ -83,6 +83,11 @@ public class Campaign {
         this.campaignUsers = campaignUsers;
     }
 
+    public void addCampaignUser(CampaignUser campaignUser) {
+        this.campaignUsers.add(campaignUser);
+        campaignUser.setCampaign(this);
+    }
+
     public List<Session> getSessions() {
         return sessions;
     }

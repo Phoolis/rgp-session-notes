@@ -18,14 +18,37 @@
   </head>
   <body>
     <div class="container">
-      <div>
-        <h1 style="text-align: left; float: left">Campaigns</h1>
-        <form style="text-align: right" th:action="@{/logout}" method="POST">
-          <input type="submit" value="Sign out" class="btn btn-sm btn-danger" />
-        </form>
-        <h3 style="text-align: right; float: right">
-          <span sec:authentication="name"></span>
-        </h3>
+      <!-- Title and new campaign button on the left-->
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <h1>Campaigns</h1>
+          <form
+            style="margin-left: 40px"
+            th:action="@{/createcampaign}"
+            method="GET"
+          >
+            <input type="submit" value="New Campaign" class="btn btn-primary" />
+          </form>
+        </div>
+        <!-- Signout and username on the right-->
+        <div style="text-align: right">
+          <form style="display: inline" th:action="@{/logout}" method="POST">
+            <input
+              type="submit"
+              value="Sign out"
+              class="btn btn-sm btn-danger"
+            />
+          </form>
+          <h3 style="margin: 0">
+            <span sec:authentication="name"></span>
+          </h3>
+        </div>
       </div>
       <table sec:authorize="hasAuthority('ADMIN')" class="table table-striped">
         <!--- Admin view --->

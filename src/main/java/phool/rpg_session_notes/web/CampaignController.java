@@ -45,6 +45,18 @@ public class CampaignController {
         return "campaignlist";
     }
 
+    @GetMapping("/createcampaign")
+    public String createCampaign(Model model) {
+        model.addAttribute("campaign", new Campaign());
+        return "createcampaign";
+    }
+
+    @PostMapping("/saveNewCampaign")
+    public String saveCampaign(Campaign campaign) {
+        campaignService.saveNewCampaign(campaign);
+        return "redirect:/campaignlist";
+    }
+
     @GetMapping("/campaign/{id}/edit")
     public String editCampaign(@PathVariable("id") Long id, Principal principal, Model model) {
         AppUser currentUser = appUserService.findByUsername(principal.getName());

@@ -60,16 +60,19 @@ public class CampaignService {
         return campaignUser != null && campaignUser.getCampaignRole().equals("GM");
     }
 
-    public Campaign save(Campaign campaign) {
-        //TODO Add validation to saving a campaign 
-        return campaignRepository.save(campaign);
+    public Campaign saveNewCampaign(Campaign newCampaign) {
+        //TODO Add validation to saving a campaign
+        Campaign savedCampaign = campaignRepository.save(newCampaign);
+        AppUser appUser = appUserService.getCurrentUser();
+        campaignUserService.addUserToCampaign(appUser, savedCampaign, "GM");
+        return savedCampaign;
     }
 
     public Campaign updateCampaign(Campaign updatedCampaignData) {
         Campaign existingCampaign = this.findById(updatedCampaignData.getId());
         existingCampaign.setName(updatedCampaignData.getName());
         existingCampaign.setDescription(updatedCampaignData.getDescription());
-        return this.save(existingCampaign);
+        return campaignRepository.save(existingCampaign);
     }
 
     public void delete(Long id) {

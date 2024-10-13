@@ -1,10 +1,15 @@
 package phool.rpg_session_notes.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +32,17 @@ public class AppUser {
 
     @Column(name = "role", nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private List<CampaignUser> campaignUsers = new ArrayList<>();
+
+    public List<CampaignUser> getCampaignUsers() {
+        return campaignUsers;
+    }
+
+    public void setCampaignUsers(List<CampaignUser> campaignUsers) {
+        this.campaignUsers = campaignUsers;
+    }
 
     public AppUser() {
     }
