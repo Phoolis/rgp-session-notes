@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -20,7 +19,11 @@ public class WebSecurityConfig {
     private UserDetailsService userDetailsService;
 
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
-        new AntPathRequestMatcher("/h2-console/**")
+        new AntPathRequestMatcher("/h2-console/**"),
+        new AntPathRequestMatcher("/css/**"),
+        new AntPathRequestMatcher("/signup"),
+        new AntPathRequestMatcher("/saveuser"),
+        new AntPathRequestMatcher("/")
     };
 
     @Bean
@@ -28,17 +31,20 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(
                 authorize -> authorize
-                        .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .anyRequest().authenticated())
-                .headers(headers
-                        -> headers.frameOptions(frameOptions -> frameOptions
-                .disable())) //for h2-console
-                .formLogin(formlogin -> formlogin
-                .defaultSuccessUrl("/campaignlist", true)
-                .permitAll())
+                .headers(
+                        headers -> headers
+                                .frameOptions(
+                                        frameOptions -> frameOptions
+                                                .disable())) //TODO: h2-console enabled for development
+                .formLogin(
+                        formlogin -> formlogin
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/campaignlist", true)
+                                .permitAll())
                 .logout(logout -> logout.permitAll())
-                .csrf(csrf -> csrf.disable()); // not fo(r production, just for development
+                .csrf(csrf -> csrf.disable()); // TODO: csrf disabled for development, enable for production
 
         return http.build();
     }

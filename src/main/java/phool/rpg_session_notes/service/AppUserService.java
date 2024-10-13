@@ -3,9 +3,11 @@ package phool.rpg_session_notes.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import phool.rpg_session_notes.domain.AppUser;
+import phool.rpg_session_notes.domain.SignupForm;
 import phool.rpg_session_notes.repository.AppUserRepository;
 
 @Service
@@ -26,6 +28,26 @@ public class AppUserService {
 
     public AppUser getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return this.findByUsername(username);
+        return findByUsername(username);
+    }
+
+    public void registerAppUser(SignupForm signupForm) throws Exception {
+        if (!signupForm.getPassword().equals(signupForm.getPasswordCheck())) {
+            throw new Exception("Passwords do not match!");
+        }
+        if (appUserRepository.findByUsername(signupForm.getUsername()).isPresent()) {
+            throw new Exception("Username is already taken!");
+        }
+
+        AppUser newUser = new AppUser();
+        newUser.setusername(signupForm.getUsername());
+        newUser.setPassword(hashPassword(signupForm.getPassword()));
+        newUser.setRole("USER");
+
+        appUserRepository.save(newUser);
+    }
+
+    public String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
