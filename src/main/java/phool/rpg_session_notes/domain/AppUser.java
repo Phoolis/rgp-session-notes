@@ -44,6 +44,11 @@ public class AppUser {
         this.campaignUsers = campaignUsers;
     }
 
+    public void addCampaignUser(CampaignUser campaignUser) {
+        this.campaignUsers.add(campaignUser);
+        campaignUser.setAppUser(this);
+    }
+
     public AppUser() {
     }
 

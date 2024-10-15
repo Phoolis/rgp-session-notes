@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
 import phool.rpg_session_notes.domain.CampaignUser;
+import phool.rpg_session_notes.domain.Invitation;
 import phool.rpg_session_notes.service.AppUserService;
 import phool.rpg_session_notes.service.CampaignService;
 import phool.rpg_session_notes.service.CampaignUserService;
+import phool.rpg_session_notes.service.InvitationService;
 
 @Controller
 public class CampaignController {
@@ -29,6 +31,9 @@ public class CampaignController {
 
     @Autowired
     private CampaignUserService campaignUserService;
+
+    @Autowired
+    private InvitationService invitationService;
 
     @GetMapping("/campaignlist")
     public String getCampaignsForUser(Model model, Principal principal) {
@@ -87,6 +92,27 @@ public class CampaignController {
         Campaign campaign = campaignService.findById(id);
         model.addAttribute("campaign", campaign);
         return "dashboard";
+    }
+
+    @GetMapping("/campaign/{id}/manage")
+    public String getManageCampaing(@PathVariable("id") Long id, Model model) {
+        Campaign campaign = campaignService.findById(id);
+        model.addAttribute("campaign", campaign);
+        model.addAttribute("invitelink", "");
+        return "managecampaign";
+    }
+
+    @PostMapping("/campaign/{id}/manage/generate-invite")
+    public String generateInviteLink(@PathVariable Long id, Model model) {
+        Campaign campaign = campaignService.findById(id);
+        Invitation invitation = invitationService.createInvitation(campaign);
+        String inviteLink = invitationService.generateInviteLink(invitation);
+
+        // Pass the updated invite link to the model
+        model.addAttribute("campaign", campaign);
+        model.addAttribute("invitelink", inviteLink);
+
+        return "managecampaign"; // Re-render the manage campaign page with the link
     }
 
 }

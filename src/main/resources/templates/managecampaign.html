@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Campaign</title>
+    <link rel="stylesheet" href="/css/custom.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <form style="text-align: right" th:action="@{/logout}" method="POST">
+          <input type="submit" value="Sign out" class="btn btn-sm btn-danger" />
+        </form>
+        <h3 style="text-align: right; float: right">
+          <span sec:authentication="name"></span>
+        </h3>
+      </div>
+      <div>
+        <h2>Create new session here</h2>
+        <p>TODO</p>
+      </div>
+      <div>
+        <h2>Invite new players here</h2>
+        <p>Generate an invite link to share with players:</p>
+        <form
+          th:action="@{/campaign/{id}/manage/generate-invite(id=${campaign.id})}"
+          method="POST"
+        >
+          <button type="submit" class="btn btn-primary">
+            Generate Invite Link
+          </button>
+        </form>
+        <div th:if="${invitelink != ''}" class="mt-3">
+          <h5>Your invite link:</h5>
+          <div class="alert alert-info">
+            <a th:href="${invitelink}" th:text="${invitelink}"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

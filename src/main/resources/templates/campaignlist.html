@@ -90,6 +90,13 @@
           <td th:text="${campaignUser.campaign.description}"></td>
           <td th:text="${campaignUser.campaignRole}"></td>
           <td th:if="${campaignUser.campaignRole == 'GM'}">
+            <a
+              th:href="@{/campaign/{id}/manage(id=${campaignUser.campaign.id})}"
+              class="btn btn-primary"
+              >Manage</a
+            >
+          </td>
+          <td th:if="${campaignUser.campaignRole == 'GM'}">
             <a th:href="@{/campaign/{id}/edit(id=${campaignUser.campaign.id})}"
               >Edit</a
             >
