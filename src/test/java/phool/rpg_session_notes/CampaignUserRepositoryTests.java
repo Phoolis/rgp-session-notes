@@ -76,6 +76,6 @@ public class CampaignUserRepositoryTests {
 
         assertThat(campaignUser).isNotNull();
         assertThat(campaign.getName()).isEqualTo(campaignUser.getCampaign().getName());
-        assertThat(appUser.getusername()).isEqualTo(campaignUser.getAppUser().getusername());
+        assertThat(appUser.getUsername()).isEqualTo(campaignUser.getAppUser().getUsername());
     }
 }

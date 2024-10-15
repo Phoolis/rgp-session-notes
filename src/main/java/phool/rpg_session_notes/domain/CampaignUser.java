@@ -31,7 +31,7 @@ public class CampaignUser {
     @Column(name = "campaign_role", nullable = false)
     private String campaignRole;
 
-    @Column(name = "screen_name", nullable = true, unique = true)
+    @Column(name = "screen_name", nullable = true)
     private String screenName;
 
     public CampaignUser() {

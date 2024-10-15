@@ -97,11 +97,6 @@
             >
           </td>
           <td th:if="${campaignUser.campaignRole == 'GM'}">
-            <a th:href="@{/campaign/{id}/edit(id=${campaignUser.campaign.id})}"
-              >Edit</a
-            >
-          </td>
-          <td th:if="${campaignUser.campaignRole == 'GM'}">
             <a
               th:href="@{/campaign/{id}/delete(id=${campaignUser.campaign.id})}"
               class="btn btn-danger"

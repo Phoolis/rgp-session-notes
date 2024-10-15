@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class InvitationService {
 
     @Autowired
     private InvitationRepository invitationRepository;
+
+    // read baseUrl from application.properties
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public Invitation createInvitation(Campaign campaign) {
         Invitation invitation = new Invitation();
@@ -32,8 +37,7 @@ public class InvitationService {
 
     public String generateInviteLink(Invitation invitation) {
         // TODO: change baseUrl for production
-        String baseUrl = "http://localhost:8080/join/";
-        return baseUrl + invitation.getToken();
+        return baseUrl + "/join/" + invitation.getToken();
     }
 
     public Invitation findByToken(String token) {

@@ -8,6 +8,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manage Campaign</title>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/css/bootstrap.min.css"
+      th:href="@{/css/bootstrap.min.css}"
+    />
     <link rel="stylesheet" href="/css/custom.css" />
   </head>
   <body>
@@ -20,25 +26,70 @@
           <span sec:authentication="name"></span>
         </h3>
       </div>
-      <div>
-        <h2>Create new session here</h2>
-        <p>TODO</p>
+      <!-- Section 1: Create new session -->
+      <div class="row my-4">
+        <div class="col">
+          <h2>Create new session here</h2>
+          <p>TODO</p>
+        </div>
       </div>
-      <div>
-        <h2>Invite new players here</h2>
-        <p>Generate an invite link to share with players:</p>
-        <form
-          th:action="@{/campaign/{id}/manage/generate-invite(id=${campaign.id})}"
-          method="POST"
-        >
-          <button type="submit" class="btn btn-primary">
-            Generate Invite Link
-          </button>
-        </form>
-        <div th:if="${invitelink != ''}" class="mt-3">
-          <h5>Your invite link:</h5>
-          <div class="alert alert-info">
-            <a th:href="${invitelink}" th:text="${invitelink}"></a>
+      <!-- Section 2: Show campaign users -->
+      <div class="row my-4">
+        <div class="col">
+          <h2>Campaign Users</h2>
+          <table class="table table-striped">
+            <tr>
+              <th>Username</th>
+              <th>Campaign role</th>
+            </tr>
+            <tr th:each="campaignUser : ${campaign.campaignUsers}">
+              <td th:text="${campaignUser.appUser.username}"></td>
+              <td th:text="${campaignUser.campaignRole}"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- Section 3: Invite new players -->
+      <div class="row my-4">
+        <div class="col">
+          <h2>Invite new players here</h2>
+          <p>Generate an invite link to share with players:</p>
+          <form
+            th:action="@{/campaign/{id}/manage/generate-invite(id=${campaign.id})}"
+            method="POST"
+          >
+            <button type="submit" class="btn btn-primary">
+              Generate Invite Link
+            </button>
+          </form>
+          <div th:if="${invitelink != ''}" class="mt-3">
+            <h5>Your invite link:</h5>
+            <div class="alert alert-info">
+              <a th:href="${invitelink}" th:text="${invitelink}"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section 4: Edit campaign details -->
+      <div class="row my-4">
+        <div class="col">
+          <h2>Edit Campaign details here</h2>
+          <div>
+            <form
+              action="#"
+              th:object="${campaign}"
+              th:action="@{/saveEditedCampaign}"
+              method="POST"
+            >
+              <input type="hidden" id="id" th:field="*{id}" />
+              <p>Name: <input type="text" th:field="*{name}" /></p>
+              <p>Description <input type="text" th:field="*{description}" /></p>
+              <p>
+                <button type="submit" class="btn btn-warning">
+                  Save Changes
+                </button>
+              </p>
+            </form>
           </div>
         </div>
       </div>

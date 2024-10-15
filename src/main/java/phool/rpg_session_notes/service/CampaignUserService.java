@@ -45,7 +45,7 @@ public class CampaignUserService {
         campaignUser.setCampaignRole(campaignRole);
         campaignUserRepository.save(campaignUser);
 
-        // add user to the campaign's campaignUsers list, and to appUser
+        // Add user associations to both campaign and appUser
         campaign.addCampaignUser(campaignUser);
         campaignRepository.save(campaign);
         appUser.addCampaignUser(campaignUser);

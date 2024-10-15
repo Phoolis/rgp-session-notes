@@ -40,7 +40,7 @@ public class AppUserService {
         }
 
         AppUser newUser = new AppUser();
-        newUser.setusername(signupForm.getUsername());
+        newUser.setUsername(signupForm.getUsername());
         newUser.setPassword(hashPassword(signupForm.getPassword()));
         newUser.setRole("USER");
 
