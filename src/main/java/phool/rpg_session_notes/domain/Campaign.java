@@ -99,6 +99,11 @@ public class Campaign {
         this.sessions = sessions;
     }
 
+    public void addSession(Session session) {
+        this.sessions.add(session);
+        session.setCampaign(this);
+    }
+
     public List<Invitation> getInvitations() {
         return invitations;
     }

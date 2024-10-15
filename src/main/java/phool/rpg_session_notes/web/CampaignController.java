@@ -7,18 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
 import phool.rpg_session_notes.domain.CampaignUser;
 import phool.rpg_session_notes.domain.Invitation;
+import phool.rpg_session_notes.domain.Session;
 import phool.rpg_session_notes.service.AppUserService;
 import phool.rpg_session_notes.service.CampaignService;
 import phool.rpg_session_notes.service.CampaignUserService;
 import phool.rpg_session_notes.service.InvitationService;
+import phool.rpg_session_notes.service.SessionService;
 
 @Controller
 public class CampaignController {
@@ -34,6 +39,9 @@ public class CampaignController {
 
     @Autowired
     private InvitationService invitationService;
+
+    @Autowired
+    private SessionService sessionService;
 
     @GetMapping("/campaignlist")
     public String getCampaignsForUser(Model model, Principal principal) {
@@ -98,6 +106,7 @@ public class CampaignController {
     public String getManageCampaing(@PathVariable("id") Long id, Model model) {
         Campaign campaign = campaignService.findById(id);
         model.addAttribute("campaign", campaign);
+        model.addAttribute("session", new Session());
         model.addAttribute("invitelink", "");
         return "managecampaign";
     }
@@ -113,6 +122,21 @@ public class CampaignController {
         model.addAttribute("invitelink", inviteLink);
 
         return "managecampaign"; // Re-render the manage campaign page with the link
+    }
+
+    @PostMapping("/campaign/{id}/manage/create-session")
+    public String createSession(@PathVariable Long id,
+            @Valid @ModelAttribute("session") Session session,
+            BindingResult bindingResult,
+            Model model) {
+        Campaign campaign = campaignService.findById(id);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(campaign);
+            return "managecampaign";
+        }
+        sessionService.createSessionForCampaign(session, campaign);
+        return "redirect:/campaign/{id}/dashboard";
     }
 
 }

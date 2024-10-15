@@ -32,7 +32,9 @@
         th:each="i : ${#numbers.sequence(campaign.sessions.size() -1, 0, -1)}"
         th:with="sesh=${campaign.sessions[i]}"
       >
-        <legend th:text="${'Session ' + sesh.sessionNumber}"></legend>
+        <legend
+          th:text="${'Session ' + sesh.sessionNumber + ': played on ' + sesh.sessionDate}"
+        ></legend>
         <p th:each="note : ${sesh.notes}">
           <span th:text="${note.text}"></span>
         </p>
