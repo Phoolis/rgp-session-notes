@@ -1,5 +1,7 @@
 package phool.rpg_session_notes.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,10 @@ public class SessionService {
         newSession.setCampaign(campaign);
         campaign.addSession(newSession);
         return sessionRepository.save(newSession);
+    }
+
+    public List<Session> findAllByCampaign(Campaign campaign) {
+        return sessionRepository.findByCampaign(campaign);
     }
 
 }

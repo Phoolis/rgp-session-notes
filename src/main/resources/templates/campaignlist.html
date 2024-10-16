@@ -39,7 +39,10 @@
           </form>
         </div>
       </div>
-      <table sec:authorize="hasAuthority('ADMIN')" class="table table-striped">
+      <table
+        sec:authorize="hasAuthority('ROLE_ADMIN')"
+        class="table table-striped"
+      >
         <!--- Admin view --->
         <tr>
           <th>Name</th>

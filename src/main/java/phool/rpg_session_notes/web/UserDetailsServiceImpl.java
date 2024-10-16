@@ -1,8 +1,6 @@
 package phool.rpg_session_notes.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,9 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser curruser = repository.findByUsername(username).get();
-        UserDetails user = new User(username, curruser.getPassword(),
-                AuthorityUtils.createAuthorityList(curruser.getRole()));
-        return user;
+        AppUser currentUser = repository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username"));
+        return currentUser;
+        // returns an AppUser instead of User
     }
 }

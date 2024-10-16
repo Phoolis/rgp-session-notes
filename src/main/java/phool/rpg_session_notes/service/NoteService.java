@@ -25,7 +25,12 @@ public class NoteService {
         newNote.setAppUser(currentUser);
         newNote.setCreatedAt(LocalDateTime.now());
         newNote.setText(note.getText());
-        newNote.setUserScreenName(currentUser.getUsername());
+        if (note.getUserScreenName() == null) {
+            newNote.setUserScreenName(currentUser.getUsername());
+        } else {
+            newNote.setUserScreenName(note.getUserScreenName());
+        }
+
         session.addNote(newNote);
         return noteRepository.save(newNote);
 

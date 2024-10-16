@@ -30,6 +30,10 @@ public class CampaignUserService {
                 .orElseThrow(() -> new RuntimeException("User not found in this campaign"));
     }
 
+    public boolean isUserInCampaign(AppUser appUser, Campaign campaign) {
+        return campaignUserRepository.findByAppUserAndCampaign(appUser, campaign).isPresent();
+    }
+
     public List<CampaignUser> findByUser(AppUser appUser) {
         return campaignUserRepository.findAllByAppUser(appUser);
     }
