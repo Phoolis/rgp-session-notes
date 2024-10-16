@@ -63,7 +63,7 @@ public class InvitationController {
         AppUser appUser = appUserService.getCurrentUser();
         String campaignRole = "PLAYER";
         try {
-            campaignUserService.addUserToCampaign(appUser, campaign, campaignRole);
+            campaignUserService.addUserToCampaign(appUser, campaign, campaignRole, screenName);
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";

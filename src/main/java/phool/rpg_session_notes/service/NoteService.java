@@ -3,6 +3,7 @@ package phool.rpg_session_notes.service;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import phool.rpg_session_notes.domain.AppUser;
@@ -23,6 +24,11 @@ public class NoteService {
     @Autowired
     private CampaignUserService campaignUserService;
 
+    public Note findById(Long id) {
+        return noteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Note not found"));
+    }
+
     public Note createNoteForSession(Note note, Session session) {
         Note newNote = new Note();
         AppUser currentUser = appUserService.getCurrentUser();
@@ -41,6 +47,13 @@ public class NoteService {
         session.addNote(newNote);
         return noteRepository.save(newNote);
 
+    }
+
+    public Note updateNote(Note updatedNote) {
+        Note existingNote = this.findById(updatedNote.getId());
+        existingNote.setText(updatedNote.getText());
+        existingNote.setCreatedAt(LocalDateTime.now());
+        return noteRepository.save(existingNote);
     }
 
 }
