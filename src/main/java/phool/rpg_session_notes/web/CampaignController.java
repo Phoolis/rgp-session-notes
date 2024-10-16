@@ -18,6 +18,7 @@ import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
 import phool.rpg_session_notes.domain.CampaignUser;
 import phool.rpg_session_notes.domain.Invitation;
+import phool.rpg_session_notes.domain.Note;
 import phool.rpg_session_notes.domain.Session;
 import phool.rpg_session_notes.service.AppUserService;
 import phool.rpg_session_notes.service.CampaignService;
@@ -99,6 +100,7 @@ public class CampaignController {
     public String getCampaignSessionLog(@PathVariable("id") Long id, Model model) {
         Campaign campaign = campaignService.findById(id);
         model.addAttribute("campaign", campaign);
+        model.addAttribute("note", new Note());
         return "sessionlog";
     }
 

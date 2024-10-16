@@ -83,4 +83,9 @@ public class Session {
         this.notes = notes;
     }
 
+    public void addNote(Note note) {
+        this.notes.add(note);
+        note.setSession(this);
+    }
+
 }

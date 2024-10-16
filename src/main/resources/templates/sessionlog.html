@@ -22,17 +22,52 @@
     <div class="container">
       <!--- Show sessions in reverse order 
       source: https://stackoverflow.com/questions/46443563/thymeleaf-how-to-loop-through-a-list-in-inverse-order /--->
-      <fieldset
+      <div
+        class="card w-100 mb-3, mt-3"
         th:each="i : ${#numbers.sequence(campaign.sessions.size() -1, 0, -1)}"
         th:with="sesh=${campaign.sessions[i]}"
       >
-        <legend
-          th:text="${'Session ' + sesh.sessionNumber + ': played on ' + sesh.sessionDate}"
-        ></legend>
-        <p th:each="note : ${sesh.notes}">
-          <span th:text="${note.text}"></span>
-        </p>
-      </fieldset>
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span th:text="${'Session ' + sesh.sessionNumber}"></span>
+          <span
+            th:text="${#temporals.format(sesh.sessionDate, 'dd/MM/yyyy')}"
+          ></span>
+          <!-- Date formatting using thymeleaf -->
+        </div>
+        <div class="card-body">
+          <p th:each="note : ${sesh.notes}">
+            <span th:text="${note.text}"></span>
+            <br />
+            <small
+              class="text-muted"
+              th:text="' -' +${note.userScreenName}"
+            ></small>
+          </p>
+        </div>
+        <!-- Input field for new note -->
+        <div class="card-footer">
+          <form
+            action="#"
+            th:object="${note}"
+            th:action="@{/addNewNote}"
+            method="POST"
+          >
+            <input type="hidden" name="session.id" th:value="${sesh.id}" />
+            <input type="hidden" id="id" th:field="*{id}" />
+            <p>Add note:</p>
+            <textarea
+              th:field="*{text}"
+              rows="5"
+              cols="50"
+              class="form-control"
+              placeholder="Write your note here..."
+            ></textarea>
+            <p><input type="submit" value="Add" class="btn btn-primary" /></p>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
