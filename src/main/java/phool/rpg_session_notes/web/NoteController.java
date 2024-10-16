@@ -1,7 +1,6 @@
 package phool.rpg_session_notes.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Note;
 import phool.rpg_session_notes.domain.Session;
 import phool.rpg_session_notes.service.NoteService;
