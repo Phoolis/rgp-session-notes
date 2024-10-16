@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "notes")
@@ -32,6 +33,7 @@ public class Note {
     @JoinColumn(name = "session_id", nullable = true)
     private Session session;
 
+    @NotBlank(message = "Note cannot be empty")
     private String text;
 
     private LocalDateTime createdAt;

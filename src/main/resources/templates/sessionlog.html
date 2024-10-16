@@ -64,6 +64,12 @@
               class="form-control"
               placeholder="Write your note here..."
             ></textarea>
+            <p class="text-danger" th:if="${#fields.hasErrors('text')}">
+              <span th:errors="*{text}"></span>
+            </p>
+            <div class="alert alert-danger" th:if="${errorMessage}">
+              <p th:text="${errorMessage}"></p>
+            </div>
             <p><input type="submit" value="Add" class="btn btn-primary" /></p>
           </form>
         </div>

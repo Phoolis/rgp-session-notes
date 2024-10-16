@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "sessions")
@@ -28,6 +29,7 @@ public class Session {
     @JoinColumn(name = "campaign_id", nullable = false)
     private Campaign campaign;
 
+    @NotNull(message = "Session date cannot be null")
     private LocalDate sessionDate;
     private Integer sessionNumber;
 

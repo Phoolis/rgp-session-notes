@@ -38,8 +38,15 @@
                 type="date"
                 th:field="*{sessionDate}"
                 class="form-control"
+                style="max-width: 200px"
               />
             </p>
+            <div
+              th:if="${#fields.hasErrors('sessionDate')}"
+              class="text-danger"
+            >
+              <span th:errors="*{sessionDate}"></span>
+            </div>
             <button type="submit" class="btn btn-success">New Session</button>
           </form>
         </div>
@@ -94,6 +101,9 @@
             >
               <input type="hidden" id="id" th:field="*{id}" />
               <p>Name: <input type="text" th:field="*{name}" /></p>
+              <p class="text-danger" th:if="${#fields.hasErrors('name')}">
+                <span th:errors="*{name}"></span>
+              </p>
               <p>Description <input type="text" th:field="*{description}" /></p>
               <p>
                 <button type="submit" class="btn btn-warning">

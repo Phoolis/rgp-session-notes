@@ -66,7 +66,10 @@ public class CampaignController {
     }
 
     @PostMapping("/saveNewCampaign")
-    public String saveCampaign(Campaign campaign) {
+    public String saveCampaign(@Valid Campaign campaign, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "createcampaign";
+        }
         campaignService.saveNewCampaign(campaign);
         return "redirect:/campaignlist";
     }
@@ -85,7 +88,13 @@ public class CampaignController {
     }
 
     @PostMapping("/saveEditedCampaign")
-    public String saveEditedCampaign(Campaign campaign, Model model) {
+    public String saveEditedCampaign(@Valid @ModelAttribute("campaign") Campaign campaign,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("campaign", campaign);
+            model.addAttribute("session", new Session());
+            return "managecampaign";
+        }
         campaignService.updateCampaign(campaign);
         return "redirect:/campaignlist";
     }

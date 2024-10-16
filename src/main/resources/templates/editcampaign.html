@@ -29,6 +29,9 @@
         >
           <input type="hidden" id="id" th:field="*{id}" />
           <p>Name: <input type="text" th:field="*{name}" /></p>
+          <p class="text-danger" th:if="${#fields.hasErrors('name')}">
+            <span th:errors="*{name}"></span>
+          </p>
           <p>Description <input type="text" th:field="*{description}" /></p>
           <p><input type="submit" value="Save" /></p>
         </form>
