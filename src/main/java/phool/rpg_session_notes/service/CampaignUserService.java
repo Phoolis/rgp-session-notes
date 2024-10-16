@@ -38,7 +38,7 @@ public class CampaignUserService {
         return campaignUserRepository.findAllByAppUser(appUser);
     }
 
-    public CampaignUser addUserToCampaign(AppUser appUser, Campaign campaign, String campaignRole) {
+    public CampaignUser addUserToCampaign(AppUser appUser, Campaign campaign, String campaignRole, String screenName) {
         Optional<CampaignUser> existingCampaignUser = campaignUserRepository.findByAppUserAndCampaign(appUser, campaign);
         if (existingCampaignUser.isPresent()) {
             throw new IllegalArgumentException("User is already part of this Campaign");
@@ -47,6 +47,7 @@ public class CampaignUserService {
         campaignUser.setAppUser(appUser);
         campaignUser.setCampaign(campaign);
         campaignUser.setCampaignRole(campaignRole);
+        campaignUser.setScreenName(screenName);
         campaignUserRepository.save(campaignUser);
 
         // Add user associations to both campaign and appUser
@@ -57,4 +58,8 @@ public class CampaignUserService {
         return campaignUser;
     }
 
+    // Method overloading to set Username as screenName if it's not given
+    public void addUserToCampaign(AppUser appUser, Campaign campaign, String campaignRole) {
+        addUserToCampaign(appUser, campaign, campaignRole, appUser.getUsername());
+    }
 }

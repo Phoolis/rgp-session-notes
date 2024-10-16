@@ -129,7 +129,6 @@ public class SessionNoteRestController {
 
         Note newNote = new Note();
         newNote.setText(noteDTO.text());
-        newNote.setUserScreenName(noteDTO.userScreenName());
         Note createdNote = noteService.createNoteForSession(newNote, session);
 
         NoteDTO responseDTO = new NoteDTO(createdNote.getId(),

@@ -3,6 +3,7 @@ package phool.rpg_session_notes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,6 +35,7 @@ public class WebSecurityConfig {
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults()) // httpBasic() has been deprecated. 
                 .headers(
                         headers -> headers
                                 .frameOptions(

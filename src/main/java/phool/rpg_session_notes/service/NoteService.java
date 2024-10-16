@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import phool.rpg_session_notes.domain.AppUser;
+import phool.rpg_session_notes.domain.CampaignUser;
 import phool.rpg_session_notes.domain.Note;
 import phool.rpg_session_notes.domain.Session;
 import phool.rpg_session_notes.repository.NoteRepository;
@@ -17,7 +18,10 @@ public class NoteService {
     private NoteRepository noteRepository;
 
     @Autowired
-    AppUserService appUserService;
+    private AppUserService appUserService;
+
+    @Autowired
+    private CampaignUserService campaignUserService;
 
     public Note createNoteForSession(Note note, Session session) {
         Note newNote = new Note();
@@ -25,10 +29,13 @@ public class NoteService {
         newNote.setAppUser(currentUser);
         newNote.setCreatedAt(LocalDateTime.now());
         newNote.setText(note.getText());
-        if (note.getUserScreenName() == null) {
+
+        CampaignUser campaignUser = campaignUserService.findByUserAndCampaign(currentUser, session.getCampaign());
+
+        if (campaignUser.getScreenName() == null) {
             newNote.setUserScreenName(currentUser.getUsername());
         } else {
-            newNote.setUserScreenName(note.getUserScreenName());
+            newNote.setUserScreenName(campaignUser.getScreenName());
         }
 
         session.addNote(newNote);

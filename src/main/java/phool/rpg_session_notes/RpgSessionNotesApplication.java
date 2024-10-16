@@ -76,11 +76,11 @@ public class RpgSessionNotesApplication {
             sessionRepository.save(new Session(campaignRepository.findById(2L).get(), LocalDate.now(), 3));
 
             log.info("Create some notes");
-            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(1L).get(), "Very important note from GM!"));
-            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(1L).get(), "Player1 adds a note."));
-            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(2L).get(), "Session 2 note from GM!"));
-            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds a note to session 2."));
-            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds second note to session 2."));
+            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(1L).get(), "Very important note from GM!", "GM", "SnarkyGM"));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(1L).get(), "Player1 adds a note.", "PLAYER", "Aragorn"));
+            noteRepository.save(new Note(appUserRepository.findById(3L).get(), sessionRepository.findById(2L).get(), "Session 2 note from GM!", "GM", "SnarkyGM"));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds a note to session 2.", "PLAYER", "Aragorn"));
+            noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds second note to session 2.", "PLAYER", "Aragorn"));
         };
     }
 

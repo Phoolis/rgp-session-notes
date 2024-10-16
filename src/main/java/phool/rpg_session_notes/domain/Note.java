@@ -51,10 +51,19 @@ public class Note {
     public Note() {
     }
 
-    public Note(AppUser appUser, Session session, String text) {
+    public Note(AppUser appUser, Session session, String text, String userRole) {
         this.appUser = appUser;
         this.session = session;
         this.text = text;
+        this.userRole = userRole;
+    }
+
+    public Note(AppUser appUser, Session session, String text, String userRole, String userScreenName) {
+        this.appUser = appUser;
+        this.session = session;
+        this.text = text;
+        this.userRole = userRole;
+        this.userScreenName = userScreenName;
     }
 
     public Long getId() {

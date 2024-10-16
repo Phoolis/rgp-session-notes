@@ -25,6 +25,7 @@
       <div>
         <form th:action="@{/acceptCampaignInvitation}" method="POST">
           <input type="hidden" name="token" th:value="${token}" />
+          <p>Screen name: <input type="text" name="screenName" /></p>
           <button type="submit">Join Campaign</button>
         </form>
       </div>

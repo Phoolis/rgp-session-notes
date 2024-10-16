@@ -20,6 +20,7 @@
     <!-- Insert navmenu fragment -->
     <div th:insert="header :: navmenu"></div>
     <div class="container">
+      <h1><span th:text=" ${campaign.name}"></span></h1>
       <!--- Show sessions in reverse order 
       source: https://stackoverflow.com/questions/46443563/thymeleaf-how-to-loop-through-a-list-in-inverse-order /--->
       <div

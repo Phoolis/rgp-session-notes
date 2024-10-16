@@ -58,10 +58,12 @@
           <table class="table table-striped">
             <tr>
               <th>Username</th>
+              <th>Screen name</th>
               <th>Campaign role</th>
             </tr>
             <tr th:each="campaignUser : ${campaign.campaignUsers}">
               <td th:text="${campaignUser.appUser.username}"></td>
+              <td th:text="${campaignUser.screenName}"></td>
               <td th:text="${campaignUser.campaignRole}"></td>
             </tr>
           </table>

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
@@ -53,7 +54,10 @@ public class InvitationController {
     }
 
     @PostMapping("/acceptCampaignInvitation")
-    public String acceptCampaignInvitation(String token, Model model) {
+    public String acceptCampaignInvitation(
+            @RequestParam("token") String token,
+            @RequestParam("screenName") String screenName,
+            Model model) {
         Invitation invitation = invitationService.findByToken(token);
         Campaign campaign = invitation.getCampaign();
         AppUser appUser = appUserService.getCurrentUser();
