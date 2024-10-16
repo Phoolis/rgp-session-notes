@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/css/custom.css" />
   </head>
   <body>
+    <!-- Insert navmenu fragment -->
+    <div th:insert="header :: navmenu"></div>
     <div class="container">
       <!-- Title and new campaign button on the left-->
       <div
@@ -35,19 +37,6 @@
           >
             <input type="submit" value="New Campaign" class="btn btn-primary" />
           </form>
-        </div>
-        <!-- Signout and username on the right-->
-        <div style="text-align: right">
-          <form style="display: inline" th:action="@{/logout}" method="POST">
-            <input
-              type="submit"
-              value="Sign out"
-              class="btn btn-sm btn-danger"
-            />
-          </form>
-          <h3 style="margin: 0">
-            <span sec:authentication="name"></span>
-          </h3>
         </div>
       </div>
       <table sec:authorize="hasAuthority('ADMIN')" class="table table-striped">
@@ -82,7 +71,7 @@
         <tr th:each="campaignUser : ${campaignusers}">
           <td>
             <a
-              th:href="@{/campaign/{id}/dashboard(id=${campaignUser.campaign.id})}"
+              th:href="@{/campaign/{id}/sessionlog(id=${campaignUser.campaign.id})}"
               >View</a
             >
           </td>

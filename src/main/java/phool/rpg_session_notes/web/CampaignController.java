@@ -95,11 +95,11 @@ public class CampaignController {
         return "redirect:/campaignlist";
     }
 
-    @GetMapping("/campaign/{id}/dashboard")
-    public String getCampaignDashboard(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/campaign/{id}/sessionlog")
+    public String getCampaignSessionLog(@PathVariable("id") Long id, Model model) {
         Campaign campaign = campaignService.findById(id);
         model.addAttribute("campaign", campaign);
-        return "dashboard";
+        return "sessionlog";
     }
 
     @GetMapping("/campaign/{id}/manage")
@@ -120,6 +120,7 @@ public class CampaignController {
         // Pass the updated invite link to the model
         model.addAttribute("campaign", campaign);
         model.addAttribute("invitelink", inviteLink);
+        model.addAttribute("session", new Session()); // session has to be added to model to re-render 
 
         return "managecampaign"; // Re-render the manage campaign page with the link
     }
@@ -136,7 +137,7 @@ public class CampaignController {
             return "managecampaign";
         }
         sessionService.createSessionForCampaign(session, campaign);
-        return "redirect:/campaign/{id}/dashboard";
+        return "redirect:/campaign/{id}/sessionlog";
     }
 
 }

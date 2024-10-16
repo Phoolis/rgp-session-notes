@@ -1,8 +1,56 @@
-<div th:fragment="navmenu">
-  <nav>
-    <ul>
-      <li><a th:href="@{/}"></a></li>
-      <li><a th:href="@{/campaignlist}"></a></li>
-    </ul>
-  </nav>
-</div>
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navmenu fragment</title>
+  </head>
+  <body>
+    <!-- Fragment is inserted starting from here -->
+    <div th:fragment="navmenu">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" th:href="@{/}">Home</a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <!-- Nav menu items -->
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/campaignlist}">Campaigns</a>
+              </li>
+            </ul>
+            <!-- Logout and current user name -->
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="#">
+                  <span sec:authentication="name"></span>
+                </a>
+              </li>
+              <li class="nav-item" sec:authorize="isAuthenticated()">
+                <form
+                  style="display: inline"
+                  th:action="@{/logout}"
+                  method="POST"
+                >
+                  <button type="submit" class="btn btn-sm btn-danger">
+                    Sign out
+                  </button>
+                </form>
+              </li>
+              <!-- Show Login/signup if not logged in-->
+              <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/login}">Login</a>
+              </li>
+              <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/signup}">Sign-up</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>

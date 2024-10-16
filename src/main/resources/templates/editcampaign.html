@@ -17,15 +17,9 @@
     />
   </head>
   <body>
+    <!-- Insert navmenu fragment -->
+    <div th:insert="header :: navmenu"></div>
     <div class="container">
-      <div>
-        <form style="text-align: right" th:action="@{/logout}" method="POST">
-          <input type="submit" value="Sign out" class="btn btn-sm btn-danger" />
-        </form>
-        <h3 style="text-align: right; float: right">
-          <span sec:authentication="name"></span>
-        </h3>
-      </div>
       <div>
         <form
           action="#"
