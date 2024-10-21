@@ -1,6 +1,7 @@
 package phool.rpg_session_notes.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,9 @@ public class InvitationService {
         invitation.setCampaign(campaign);
         // Generate a 36 character string token
         invitation.setToken(UUID.randomUUID().toString());
-        // Set invitations to last for 72 hours
-        invitation.setExpiresAt(LocalDateTime.now().plusHours(72));
+        invitation.setCreatedAt(LocalDateTime.now());
+        // Set invitations to last for 1 Week
+        invitation.setExpiresAt(LocalDateTime.now().plusDays(7));
         invitation.setStatus(Status.ACTIVE);
 
         return invitationRepository.save(invitation);
@@ -48,5 +50,29 @@ public class InvitationService {
             invitationRepository.save(invitation);
         }
         return invitation;
+    }
+
+    public boolean isActive(String token) {
+        Invitation invitation = this.findByToken(token);
+        return invitation.getStatus().equals(Status.ACTIVE);
+    }
+
+    public void deactivate(String token) {
+        Invitation invitation = this.findByToken(token);
+        if (invitation.getStatus().equals(Status.ACTIVE)) {
+            invitation.setStatus(Status.DEACTIVATED);
+        }
+    }
+
+    public Optional<Invitation> findMostRecent(Long campaignId) {
+        return invitationRepository.findTopByCampaignIdOrderByCreatedAtDesc(campaignId);
+    }
+
+    public String getActiveLinkForCampaignOrEmpty(Long campaignId) {
+        Optional<Invitation> invitation = findMostRecent(campaignId);
+        if (invitation.isEmpty() || !invitation.get().getStatus().equals(Status.ACTIVE)) {
+            return "";
+        }
+        return generateInviteLink(invitation.get());
     }
 }

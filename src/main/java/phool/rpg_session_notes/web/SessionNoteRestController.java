@@ -57,7 +57,7 @@ public class SessionNoteRestController {
             @AuthenticationPrincipal AppUser currentUser
     ) {
 
-        Campaign campaign = null;
+        Campaign campaign;
         try {
             campaign = campaignService.findById(campaignId);
         } catch (Exception e) {
@@ -95,7 +95,7 @@ public class SessionNoteRestController {
             @PathVariable("sessionId") Long sessionId,
             @AuthenticationPrincipal AppUser currentUser) {
 
-        Session session = null;
+        Session session;
         try {
             session = sessionService.findById(sessionId);
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class SessionNoteRestController {
             @Valid @RequestBody NoteDTO noteDTO,
             @AuthenticationPrincipal AppUser currentUser) {
 
-        Session session = null;
+        Session session;
         try {
             session = sessionService.findById(sessionId);
         } catch (Exception e) {
@@ -148,8 +148,8 @@ public class SessionNoteRestController {
             @Valid @RequestBody NoteDTO noteDTO,
             @AuthenticationPrincipal AppUser currentUser) {
 
-        Note note = null;
-        Session session = null;
+        Note note;
+        Session session;
 
         try {
             note = noteService.findById(noteId);
@@ -178,8 +178,8 @@ public class SessionNoteRestController {
     @DeleteMapping("/notes/{noteId}")
     public ResponseEntity<?> deleteNote(@PathVariable("noteId") Long noteId,
             @AuthenticationPrincipal AppUser currentUser) {
-        Note note = null;
-        Session session = null;
+        Note note;
+        Session session;
         try {
             note = noteService.findById(noteId);
         } catch (Exception e) {

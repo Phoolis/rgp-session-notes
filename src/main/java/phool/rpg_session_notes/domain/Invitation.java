@@ -19,6 +19,7 @@ public class Invitation {
     private Long id;
 
     private String token;
+    private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
 
     @Enumerated(EnumType.STRING)
@@ -66,6 +67,14 @@ public class Invitation {
 
     public void setCampaign(Campaign campaign) {
         this.campaign = campaign;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

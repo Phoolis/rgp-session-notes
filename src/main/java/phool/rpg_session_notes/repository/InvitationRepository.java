@@ -10,4 +10,6 @@ public interface InvitationRepository extends CrudRepository<Invitation, Long> {
 
     Optional<Invitation> findByToken(String token);
 
+    Optional<Invitation> findTopByCampaignIdOrderByCreatedAtDesc(Long campaignId);
+
 }

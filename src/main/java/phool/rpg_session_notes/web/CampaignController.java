@@ -114,16 +114,21 @@ public class CampaignController {
     }
 
     @GetMapping("/campaign/{id}/manage")
-    public String getManageCampaing(@PathVariable("id") Long id, Model model) {
+    public String getManageCampaign(@PathVariable("id") Long id, Model model) {
         Campaign campaign = campaignService.findById(id);
+
         model.addAttribute("campaign", campaign);
         model.addAttribute("session", new Session());
-        model.addAttribute("invitelink", "");
+        model.addAttribute("invitelink", invitationService.getActiveLinkForCampaignOrEmpty(id));
         return "managecampaign";
     }
 
     @PostMapping("/campaign/{id}/manage/generate-invite")
     public String generateInviteLink(@PathVariable Long id, Model model) {
+        if (!invitationService.getActiveLinkForCampaignOrEmpty(id).equals("")) {
+            Invitation recentInvitation = invitationService.findMostRecent(id).get();
+            invitationService.deactivate(recentInvitation.getToken());
+        }
         Campaign campaign = campaignService.findById(id);
         Invitation invitation = invitationService.createInvitation(campaign);
         String inviteLink = invitationService.generateInviteLink(invitation);

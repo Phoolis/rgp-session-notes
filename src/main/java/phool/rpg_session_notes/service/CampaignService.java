@@ -36,7 +36,7 @@ public class CampaignService {
     }
 
     public List<Campaign> findAllCampaignsForUser(AppUser appUser) {
-        // For admin, show all campaings in the database 
+        // For admin, show all campaigns in the database 
         if (appUser.getRole().equals("ADMIN")) {
             List<Campaign> allCampaigns
                     = StreamSupport.stream(campaignRepository.findAll().spliterator(), false)
