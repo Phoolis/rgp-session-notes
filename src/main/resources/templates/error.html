@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campaign list</title>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/css/bootstrap.min.css"
+      th:href="@{/css/bootstrap.min.css}"
+    />
+    <link rel="stylesheet" href="/css/custom.css" />
+  </head>
+  <body>
+    <!-- Insert navmenu fragment -->
+    <div th:insert="header :: navmenu"></div>
+    <div class="container">
+      <h1>An Error Occurred</h1>
+      <p class="text-danger" th:text="'Error message: ' + ${errorMessage}"></p>
+    </div>
+  </body>
+</html>
