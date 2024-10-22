@@ -1,25 +1,9 @@
 package phool.rpg_session_notes;
 
-import java.time.LocalDate;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
-import phool.rpg_session_notes.domain.AppUser;
-import phool.rpg_session_notes.domain.Campaign;
-import phool.rpg_session_notes.domain.CampaignUser;
-import phool.rpg_session_notes.domain.Note;
-import phool.rpg_session_notes.domain.Session;
-import phool.rpg_session_notes.repository.AppUserRepository;
-import phool.rpg_session_notes.repository.CampaignRepository;
-import phool.rpg_session_notes.repository.CampaignUserRepository;
-import phool.rpg_session_notes.repository.NoteRepository;
-import phool.rpg_session_notes.repository.SessionRepository;
 
 @SpringBootApplication
 public class RpgSessionNotesApplication {
@@ -30,7 +14,7 @@ public class RpgSessionNotesApplication {
         SpringApplication.run(RpgSessionNotesApplication.class, args);
     }
 
-    @Bean
+    /*     @Bean
     public CommandLineRunner demoData(
             CampaignRepository campaignRepository,
             AppUserRepository appUserRepository,
@@ -82,6 +66,5 @@ public class RpgSessionNotesApplication {
             noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds a note to session 2.", "PLAYER", "Aragorn"));
             noteRepository.save(new Note(appUserRepository.findById(5L).get(), sessionRepository.findById(2L).get(), "Player1 adds second note to session 2.", "PLAYER", "Aragorn"));
         };
-    }
-
+    } */
 }

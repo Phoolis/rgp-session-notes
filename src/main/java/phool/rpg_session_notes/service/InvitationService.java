@@ -70,6 +70,9 @@ public class InvitationService {
 
     public String getActiveLinkForCampaignOrEmpty(Long campaignId) {
         Optional<Invitation> invitation = findMostRecent(campaignId);
+        if (invitation.isPresent()) {
+            this.findByToken(invitation.get().getToken()); // check expiration Status
+        }
         if (invitation.isEmpty() || !invitation.get().getStatus().equals(Status.ACTIVE)) {
             return "";
         }

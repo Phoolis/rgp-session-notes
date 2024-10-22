@@ -34,6 +34,7 @@ public class Note {
     private Session session;
 
     @NotBlank(message = "Note cannot be empty")
+    @Column(name = "text", columnDefinition = "text")
     private String text;
 
     private LocalDateTime createdAt;

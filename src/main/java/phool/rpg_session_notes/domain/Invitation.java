@@ -2,6 +2,10 @@ package phool.rpg_session_notes.domain;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,12 +14,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "invitations")
 public class Invitation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invitation_id", nullable = false, updatable = false)
     private Long id;
 
     private String token;
@@ -23,10 +30,11 @@ public class Invitation {
     private LocalDateTime expiresAt;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM) // Or postgresql gives error for enum -> string casting
     private Status status; // Enum for ACTIVE, EXPIRED, DEACTIVATED
 
     @ManyToOne
-    @JoinColumn(name = "campaign_id")
+    @JoinColumn(name = "campaign_id", nullable = false)
     private Campaign campaign;
 
     public Long getId() {
