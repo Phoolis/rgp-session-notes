@@ -31,6 +31,7 @@ public class Invitation {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM) // Or postgresql gives error for enum -> string casting
+    @Column(name = "status_enum")
     private Status status; // Enum for ACTIVE, EXPIRED, DEACTIVATED
 
     @ManyToOne
