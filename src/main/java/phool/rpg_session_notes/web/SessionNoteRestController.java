@@ -1,24 +1,30 @@
 package phool.rpg_session_notes.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import phool.rpg_session_notes.domain.AppUser;
 import phool.rpg_session_notes.domain.Campaign;
+import phool.rpg_session_notes.domain.ErrorResponse;
 import phool.rpg_session_notes.domain.Note;
 import phool.rpg_session_notes.domain.NoteDTO;
 import phool.rpg_session_notes.domain.Session;
@@ -61,11 +67,13 @@ public class SessionNoteRestController {
         try {
             campaign = campaignService.findById(campaignId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Campaign not found");
+            ErrorResponse errorResponse = new ErrorResponse("Campaign not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
 
         if (!campaignUserService.isUserInCampaign(currentUser, campaign)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not part of this campaign, " + currentUser.getUsername());
+            ErrorResponse errorResponse = new ErrorResponse("You are not part of this campaign, " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
 
         List<Session> sessions = new ArrayList<>();
@@ -99,10 +107,12 @@ public class SessionNoteRestController {
         try {
             session = sessionService.findById(sessionId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Session not found");
+            ErrorResponse errorResponse = new ErrorResponse("Session not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         if (!campaignUserService.isUserInCampaign(currentUser, session.getCampaign())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not part of this campaign, " + currentUser.getUsername());
+            ErrorResponse errorResponse = new ErrorResponse("You are not part of this campaign, " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
 
         List<Note> notes = session.getNotes();
@@ -127,10 +137,12 @@ public class SessionNoteRestController {
         try {
             session = sessionService.findById(sessionId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Session not found");
+            ErrorResponse errorResponse = new ErrorResponse("Session not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         if (!campaignUserService.isUserInCampaign(currentUser, session.getCampaign())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not part of this campaign, " + currentUser.getUsername());
+            ErrorResponse errorResponse = new ErrorResponse("You are not part of this campaign, " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
 
         Note newNote = new Note();
@@ -154,18 +166,22 @@ public class SessionNoteRestController {
         try {
             note = noteService.findById(noteId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
+            ErrorResponse errorResponse = new ErrorResponse("Note not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         try {
             session = sessionService.findById(note.getSession().getId());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Session not found");
+            ErrorResponse errorResponse = new ErrorResponse("Session not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         if (!campaignUserService.isUserInCampaign(currentUser, session.getCampaign())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not part of this campaign, " + currentUser.getUsername());
+            ErrorResponse errorResponse = new ErrorResponse("You are not part of this campaign, " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
         if (!note.getAppUser().getId().equals(currentUser.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not the owner of this note");
+            ErrorResponse errorResponse = new ErrorResponse("You are not the owner of this note " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
 
         note.setText(noteDTO.text());
@@ -183,18 +199,22 @@ public class SessionNoteRestController {
         try {
             note = noteService.findById(noteId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
+            ErrorResponse errorResponse = new ErrorResponse("Note not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         try {
             session = sessionService.findById(note.getSession().getId());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Session not found");
+            ErrorResponse errorResponse = new ErrorResponse("Session not found", HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
         if (!campaignUserService.isUserInCampaign(currentUser, session.getCampaign())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not part of this campaign, " + currentUser.getUsername());
+            ErrorResponse errorResponse = new ErrorResponse("You are not part of this campaign, " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
         if (!note.getAppUser().getId().equals(currentUser.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not the owner of this note");
+            ErrorResponse errorResponse = new ErrorResponse("You are not the owner of this note " + currentUser.getUsername(), HttpStatus.FORBIDDEN.value());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
         // remove note association from session before delete
         session.getNotes().remove(note);
@@ -202,4 +222,19 @@ public class SessionNoteRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+// Exception handler for validation errors
+// If validation fails, a MethodArgumentNotValidException is thrown,
+// which then returns the failed field(s) and the validation failure message(s)
+// as a BAD_REQUEST response
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        return errors;
+    }
+    // Source:
+    // https://dev.to/shujaat34/exception-handling-and-validation-in-spring-boot-3of9
 }

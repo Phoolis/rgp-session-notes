@@ -24,7 +24,7 @@ import phool.rpg_session_notes.service.NoteService;
 import phool.rpg_session_notes.service.SessionService;
 import phool.rpg_session_notes.web.SessionNoteRestController;
 
-public class SessionNoteRestControllerTests {
+public class SessionNoteRestMockitoTests {
 
     //Prevent running demodata when main App context is loaded for the tests
     @MockBean
