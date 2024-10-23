@@ -89,7 +89,8 @@ public class SessionNoteRestController {
                         note.getId(),
                         note.getText(),
                         note.getCreatedAt(),
-                        note.getUserScreenName()
+                        note.getUserScreenName(),
+                        note.getUserRole()
                 ))
                         .collect(Collectors.toList()))
                 )
@@ -121,7 +122,8 @@ public class SessionNoteRestController {
                 note.getId(),
                 note.getText(),
                 note.getCreatedAt(),
-                note.getUserScreenName())
+                note.getUserScreenName(),
+                note.getUserRole())
                 )
                 .collect(Collectors.toList());
 
@@ -150,7 +152,7 @@ public class SessionNoteRestController {
         Note createdNote = noteService.createNoteForSession(newNote, session);
 
         NoteDTO responseDTO = new NoteDTO(createdNote.getId(),
-                createdNote.getText(), createdNote.getCreatedAt(), createdNote.getUserScreenName());
+                createdNote.getText(), createdNote.getCreatedAt(), createdNote.getUserScreenName(), createdNote.getUserRole());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
@@ -186,7 +188,7 @@ public class SessionNoteRestController {
 
         note.setText(noteDTO.text());
         Note updatedNote = noteService.updateNote(note);
-        NoteDTO responseDTO = new NoteDTO(noteId, updatedNote.getText(), updatedNote.getCreatedAt(), updatedNote.getUserScreenName());
+        NoteDTO responseDTO = new NoteDTO(noteId, updatedNote.getText(), updatedNote.getCreatedAt(), updatedNote.getUserScreenName(), updatedNote.getUserRole());
 
         return ResponseEntity.ok(responseDTO);
     }

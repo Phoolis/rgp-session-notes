@@ -42,7 +42,7 @@
             <span th:text="${note.text}"></span>
             <br />
             <small
-              class="text-muted"
+              th:class="${note.userRole == 'GM'} ? 'text-info' : 'text-muted'"
               th:text="' -' +${note.userScreenName}"
             ></small>
           </p>

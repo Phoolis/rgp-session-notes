@@ -9,6 +9,7 @@ public record NoteDTO(
         @NotBlank(message = "Note text cannot be empty")
         String text,
         LocalDateTime createdAt,
+        String userRole,
         String userScreenName) {
 
 }

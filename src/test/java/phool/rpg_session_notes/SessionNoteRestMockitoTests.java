@@ -77,7 +77,7 @@ public class SessionNoteRestMockitoTests {
     @Test
     public void testEditNote_Success() {
         // GIVEN
-        NoteDTO noteDTO = new NoteDTO(null, "Updated note text", null, null);
+        NoteDTO noteDTO = new NoteDTO(null, "Updated note text", null, null, null);
 
         when(noteService.findById(1L)).thenReturn(note);
         when(sessionService.findById(1L)).thenReturn(session);
@@ -103,7 +103,7 @@ public class SessionNoteRestMockitoTests {
     @Test
     public void testEditNote_Forbidden() {
         // GIVEN
-        NoteDTO noteDTO = new NoteDTO(null, "Updated note text", null, null);
+        NoteDTO noteDTO = new NoteDTO(null, "Updated note text", null, null, null);
 
         when(noteService.findById(1L)).thenReturn(note);
         when(sessionService.findById(1L)).thenReturn(session);

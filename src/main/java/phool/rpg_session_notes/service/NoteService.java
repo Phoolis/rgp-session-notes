@@ -43,6 +43,7 @@ public class NoteService {
         } else {
             newNote.setUserScreenName(campaignUser.getScreenName());
         }
+        newNote.setUserRole(campaignUser.getCampaignRole());
 
         session.addNote(newNote);
         return noteRepository.save(newNote);
